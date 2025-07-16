@@ -1,6 +1,12 @@
 import data from "../assets/data";
+import { useSelector, useDispatch } from "react-redux";
+import { cartSlice } from "../redux/redux"
+//useSelector: 전역 스토어에 있는 상태 꺼내서 읽고 싶어요
+//useDispatch: 전역 스토어에 상태 바꿔주세요 액션 실행해주세요
 
-function Cart({ menu, cart, setCart }) {
+function Cart() {
+  const cart = useSelector((state) => state.cart)
+  const menu = useSelector((state) => state.menu)
   if (!menu)
     return (
       <div style={{ textAlign: "center", margin: "80px" }}>
@@ -20,8 +26,6 @@ function Cart({ menu, cart, setCart }) {
               item={allMenus.find((menu) => menu.id === el.id)}
               options={el.options}
               quantity={el.quantity}
-              cart={cart}
-              setCart={setCart}
             />
           ))
         ) : (
@@ -32,7 +36,8 @@ function Cart({ menu, cart, setCart }) {
   );
 }
 
-function CartItem({ item, options, quantity, cart, setCart }) {
+function CartItem({ item, options, quantity }) {
+  const dispatch = useDispatch();
   return (
     <li className="cart-item">
       <div className="cart-item-info">
@@ -50,7 +55,7 @@ function CartItem({ item, options, quantity, cart, setCart }) {
       <button
         className="cart-item-delete"
         onClick={() => {
-          setCart(cart.filter((el) => item.id !== el.id));
+          dispatch(cartSlice.actions.removeFromCart(item.id));
         }}
       >
         삭제

@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import data from '../assets/data'
+import { useDispatch } from 'react-redux'
+import { cartSlice } from '../redux/redux';
 
-function OrderModal ({modalMenu, setModalOn, cart, setCart}) {
+
+function OrderModal ({modalMenu, setModalOn }) {
+    const dispatch = useDispatch();
+    
     const [ options, setOptions ] = useState({'온도': 0, '진하기': 0, '사이즈': 0})
     const [ quantity, setQuantity ] = useState(1)
     const itemOptions = data.options
@@ -33,7 +38,13 @@ function OrderModal ({modalMenu, setModalOn, cart, setCart}) {
                                 <input id="count" type="number" value={quantity} min='1' onChange={(event) => setQuantity(Number(event.target.value))} />
                             </div>
                             <button onClick={() => {
-                                setCart([...cart, { options, quantity, id: modalMenu.id}])
+                                dispatch( 
+                                    cartSlice.actions.addToCart( {
+                                        options, 
+                                        quantity, 
+                                        id: modalMenu.id,
+                                    })
+                                );
                                 setModalOn(false)
                             }}>장바구니 넣기</button>
                         </div>
@@ -60,4 +71,4 @@ function Option ({name, options, setOptions, itemOptions}) {
     )
 }
 
-export default OrderModal
+export default OrderModal;

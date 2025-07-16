@@ -1,23 +1,20 @@
-import { useState } from 'react'
 import './App.scss'
-import data from './assets/data'
 import Header from './components/Header'
 import Menu from './components/Menu'
 import { Route, Routes } from 'react-router-dom'
 import Cart from './components/Cart'
 
 function App() {
-  const [ menu, setMenu ] = useState(data.menu)
-  const [ cart, setCart ] = useState([])
-  console.log(cart)
 
   return (
     <div>
       <Header />
       <main>
         <Routes>
-          <Route path='/' element={<Menu menu={menu} cart={cart} setCart={setCart} />}/>
-          <Route path='/cart' element={<Cart menu={menu} cart={cart} setCart={setCart} />}/>
+          <Route path='/' element={<Menu />}/>
+          <Route path='/cart' element={<Cart />}/>
+          {/*   <Route path='/cart' element={<Cart menu={menu} cart={cart} setCart={setCart} />}/>  */}
+          {/* 이제 전역으로 바로바로 가져올 수 있기 때문에 프롭스 내리는 거 다 지워도 됨 */}
         </Routes>
       </main>
     </div>

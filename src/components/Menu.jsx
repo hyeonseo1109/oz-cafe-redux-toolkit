@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Item from "./Item";
 import OrderModal from "./OrderModal";
+import { useSelector } from "react-redux"
 
-function Menu({ menu, cart, setCart }) {
+function Menu() {
   const [modalOn, setModalOn] = useState(false);
   const [modalMenu, setModalMenu] = useState(null);
+  const menu = useSelector( (state) => state.menu);
+
   if (!menu)
     return (
       <div style={{ textAlign: "center", margin: "80px" }}>
@@ -39,8 +42,6 @@ function Menu({ menu, cart, setCart }) {
         <OrderModal
           modalMenu={modalMenu}
           setModalOn={setModalOn}
-          cart={cart}
-          setCart={setCart}
         />
       ) : null}
     </>
